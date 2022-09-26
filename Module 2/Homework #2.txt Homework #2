@@ -1,0 +1,53 @@
+Sub Dosomething()
+    Dim xSh As Worksheet
+    Application.ScreenUpdating = False
+    For Each xSh In Worksheets
+        xSh.Select
+        Call RunCode
+    Next
+    Application.ScreenUpdating = True
+End Sub
+Sub RunCode()
+    'Range("I1").Value = "Ticker"
+    Range("J1").Value = "Yearly Change"
+    Range("K1").Value = "Percent Change"
+    Range("L1").Value = "Total Stock Volume"
+        
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+    'MsgBox (RowCount)
+   ' Exit Sub
+    Total = 0
+    col_C_pointer = 2
+    col_I_pointer = 2
+
+    For i = 2 To RowCount
+        If Cells(i + 1, "A").Value <> Cells(i, "A").Value Then
+            Starting_Price = Cells(col_C_pointer, "C").Value
+            Ending_Price = Cells(i, "F").Value
+            Yearly_Change = Ending_Price - Starting_Price
+            Precentage_Change = Yearly_Change / (Starting_Price * 100 / 100)
+            
+            Total = Total + Cells(i, "G").Value
+            
+            Cells(col_I_pointer, "I").Value = Cells(i, "A").Value
+            Cells(col_I_pointer, "J").Value = Yearly_Change
+            Cells(col_I_pointer, "K").Value = Precentage_Change
+            Cells(col_I_pointer, "L").Value = Total
+            'Exit Sub
+            
+            col_I_pointer = col_I_pointer + 1
+            col_C_pointer = i + 1
+            
+            
+
+
+        Else
+            Total = Total + Cells(i, "G").Value
+
+        End If
+
+    Next i
+
+
+End Sub
+
